@@ -15,7 +15,7 @@
     body {
         font-family: Arial, sans-serif;
         text-align: center;
-        background-color: #f8f9fa;
+        background-color: #60a9ff;
         padding: 20px;
     }
     .container {
@@ -58,8 +58,6 @@
 </head>
 <body>
     <div class="container">
-
-
         <h1>勤怠管理</h1>
         @if ($errors->any())
             <div style="color: red; font-weight: bold; margin-bottom: 10px;">
