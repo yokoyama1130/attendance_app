@@ -12,38 +12,73 @@
         setInterval(updateTime, 1000);
     </script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        .container {
-            width: 300px;
-            margin: auto;
-        }
-        .time {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            font-size: 18px;
-        }
-        .disabled {
-            background-color: gray;
-            color: white;
-            pointer-events: none;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+    }
+    .time {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    button {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .enabled {
+        background-color: #28a745;
+        color: white;
+    }
+    .disabled {
+        background-color: gray;
+        color: white;
+        pointer-events: none;
+    }
+    .error {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
     </style>
+
 </head>
 <body>
     <div class="container">
+
+
         <h1>勤怠管理</h1>
+        @if ($errors->any())
+            <div style="color: red; font-weight: bold; margin-bottom: 10px;">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
         <div class="time">
             現在時刻: <span id="current-time">{{ now()->format('H:i:s') }}</span>
         </div>
+        @if ($attendance)
+            <div class="attendance-info">
+                <p>出勤時刻: {{ $attendance->clock_in ? $attendance->clock_in->format('H:i:s') : '-' }}</p>
+                <p>休憩開始: {{ $attendance->break_start ? $attendance->break_start->format('H:i:s') : '-' }}</p>
+                <p>休憩終了: {{ $attendance->break_end ? $attendance->break_end->format('H:i:s') : '-' }}</p>
+                <p>退勤時刻: {{ $attendance->clock_out ? $attendance->clock_out->format('H:i:s') : '-' }}</p>
+            </div>
+        @endif
         <form method="POST" action="{{ route('attendance.store') }}">
             @csrf
             <button type="submit" name="action" value="clock_in" 
