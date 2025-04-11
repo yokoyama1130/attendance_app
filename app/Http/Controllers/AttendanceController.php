@@ -18,7 +18,6 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::whereDate('date', Carbon::today())->first();
         $action = $request->input('action');
-        $now = Carbon::now('Asia/Tokyo');
 
         if (!$attendance) {
             if ($action === 'clock_in') {
